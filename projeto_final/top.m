@@ -5,7 +5,7 @@ close all;
 clear all;
 %pkg load image;
 
-I = imread("Prova/prova.jpeg");
+I = imread("Prova/prova_f.jpeg");
 
 I = imresize(I, [2970 2100]);
 R = I(:, :, 1); % REd
