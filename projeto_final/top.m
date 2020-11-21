@@ -5,25 +5,35 @@ close all;
 clear all;
 %pkg load image;
 
-I = imread("Prova/prova_f.jpeg");
+I = imread("Prova/prova.jpeg");
 
 I = imresize(I, [2970 2100]);
 R = I(:, :, 1); % REd
-%figure;
-%imshow(R);
-
-%I = imread("testeFoto2.png");
-%I = rgb2gray(I);
+% figure;
+% imshow(R);
+%title("Tons vermelhos atenuados");
 
 Ibw = ~adaptive_threshold(R, 1000, 200); %Janela / Passo, tentar(500 / 50)%Usar para fotografias
 %Ibw = ~im2bw(R,graythresh(R));           %Usar para imagem perfeita do PC
-
-% figure;
-% imshow(Ibw); %Visualizar imagem processada
+figure;
+imshow(Ibw); %Visualizar imagem processada
+title("Imagem limiarizada");
 
 Ifill = imfill(Ibw, 'holes'); %preenche vazios com 1
-Iarea = bwareaopen(Ifill, 500); %remove todos objetos da imagem com menos de X pixels de AREA
+% figure;
+% imshow(Ifill); %Visualizar imagem processada
+% title("Imagem preenchida");
+
+Iarea = bwareaopen(Ifill, 1000); %remove todos objetos da imagem com menos de X pixels de AREA
+% figure;
+% imshow(Iarea); %Visualizar imagem processada
+% title("Imagem filtrada pela area dos objetos");
+
 Ifinal = bwlabel(Iarea); %marca grupos de "1's" sequencialmente como grupo 1, 2, 3, ...
+% figure;
+% mesh(Ifinal); %Visualizar imagem processada
+% title("Imagem rotulada com indices nos objetos");
+
 estrutura = regionprops(Ifinal, 'boundingbox'); %struct estrutura [PosX,PosY,TamX,TamY] de cada quadrado detectado
 
 figure;
