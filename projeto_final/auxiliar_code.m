@@ -4,7 +4,7 @@
 %gabarito = image_squares_marked;
 
 %Igabarito = imread("FOLHA_nova_preenchida_full.jpeg");
-Igabarito = imread("Gabarito/gabarito.jpeg");
+Igabarito = imread("Gabarito/gabarito_apre.jpeg");
 
 Igabarito = imresize(Igabarito, [2970 2100]);
 
@@ -136,8 +136,8 @@ end
 %invalida mais de uma resposta por questao
 for i = 1:50
   if(sum(gabarito(i,:)) > 1)
-    gabarito(i,:) = 0;
-    error("gabarito com mais de uma resposta");
+    gabarito(i,:) = -1;
+    error("Gabarito com mais de uma resposta");
   end
 end
 

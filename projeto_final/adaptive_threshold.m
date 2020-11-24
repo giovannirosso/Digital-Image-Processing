@@ -1,6 +1,6 @@
 % ## Authors: Mateus Mello de Oliveira
 % ##          Giovanni de Rosso Unruh
-% ## Created: 2020-10-20
+% ## Created: out - 2020
 
 function img_thresh = adaptive_threshold (img, windowSize, step)
 

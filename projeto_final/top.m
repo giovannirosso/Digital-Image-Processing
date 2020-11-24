@@ -5,19 +5,19 @@ close all;
 clear all;
 %pkg load image;
 
-I = imread("Prova/prova.jpeg");
+I = imread("Prova/Teste_foto_torta_erra2.jpeg");
 
 I = imresize(I, [2970 2100]);
-R = I(:, :, 1); % REd
+R = I(:, :, 1); % RED
 % figure;
 % imshow(R);
 %title("Tons vermelhos atenuados");
 
 Ibw = ~adaptive_threshold(R, 1000, 200); %Janela / Passo, tentar(500 / 50)%Usar para fotografias
-%Ibw = ~im2bw(R,graythresh(R));           %Usar para imagem perfeita do PC
-figure;
-imshow(Ibw); %Visualizar imagem processada
-title("Imagem limiarizada");
+%Ibw = ~im2bw(R,graythresh(R));          %Usar para imagem perfeita do PC
+% figure;
+% imshow(Ibw); %Visualizar imagem processada
+% title("Imagem limiarizada");
 
 Ifill = imfill(Ibw, 'holes'); %preenche vazios com 1
 % figure;
@@ -41,7 +41,7 @@ imshow(I);
 hold on;
 
 numeroElementos = numel(estrutura);
-mamada = ones(numeroElementos, 4);
+cout = ones(numeroElementos, 4);
 
 counter = 1;
 image_squares_marked = zeros(50, 5);
@@ -50,9 +50,9 @@ test_type = zeros(1,4);
 for cont = 1:numeroElementos
     coordenada = estrutura(cont).BoundingBox;
 
-    if (coordenada(3) * coordenada(4) > 9001)%BORDAS
-        rectangle('position', coordenada, 'edgecolor', 'r', 'linewidth', 3);
-    end
+%     if (coordenada(3) * coordenada(4) > 9001)%BORDAS
+%         rectangle('position', coordenada, 'edgecolor', 'r', 'linewidth', 3);
+%     end
 
     if (coordenada(3) * coordenada(4) > 5500 && coordenada(3) * coordenada(4) < 9000)%Quadrados de tipo
         rectangle('position', coordenada, 'edgecolor', 'b', 'linewidth', 3);        
@@ -147,7 +147,7 @@ for cont = 1:numeroElementos
             end
         end
         counter = counter + 1;
-        mamada(cont, :) = coordenada;
+        cout(cont, :) = coordenada;
     end
 end
 
@@ -157,7 +157,7 @@ end
 %invalida mais de uma resposta por questao
 for i = 1:50
   if(sum(image_squares_marked(i,:)) > 1)
-    image_squares_marked(i,:) = 0;
+    image_squares_marked(i,:) = -1;
   end
 end
 %image_squares_marked
@@ -176,16 +176,22 @@ gabarito_type = zeros(1,4);
 auxiliar_code;
 
 if (type ~= g_type)
-  error("tipo de prova diferente do tipo do gabarito");
+  error("Tipo de prova diferente do tipo do gabarito");
 end
 
 acertos = 0;
+questoes = 0;
 
 for i=1:50
   %printf("questao: %d -- gabarito: ", i);printf("%d", gabarito(i,:));printf("-- prova: ");printf("%d",image_squares_marked(i,:));printf("\n");
-  if gabarito(i,:) == image_squares_marked(i,:)
-    acertos = acertos + 1;
+  if(sum(gabarito(i,:)) > 0)
+    if gabarito(i,:) == image_squares_marked(i,:)
+        acertos = acertos + 1;
+    end
+    questoes = questoes + 1;
   end
 end
 
-fprintf("Acertou %d questoes\n", acertos);
+fprintf("Acertou %d questoes de %d preenchidas no gabarito\n", acertos, questoes);
+nota = (acertos*100)/questoes;
+fprintf("Nota: %d de 100 pontos \n", nota);

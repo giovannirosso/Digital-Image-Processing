@@ -1,6 +1,6 @@
 
 % I = imread("Prova/prova_f.jpeg");
-I = imread("Prova/prova_gabaritada.jpeg");
+I = imread("Prova/prova_semPlanificar_N_Acerta_todas.jpeg");
 
 I = imresize(I, [2970 2100]); 
 R = I(:, :, 1); % REd
