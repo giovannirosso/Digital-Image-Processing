@@ -1,5 +1,7 @@
 # Digital-Image-Processing
 
+## Desenvolvido por Giovanni de Rosso Unruh e Franklin R. M. Tavares Junior 
+
 Editar nome da imagem nos arquivos top.m e auxiliar_code.m
 
 top.m -------------> Imagem da prova
